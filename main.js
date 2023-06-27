@@ -18,6 +18,10 @@ pcscore = 0;
 
 audio1 = '';
 
+wristY = 0;
+wristX = 0;
+scoreWrist = 0;
+gameStatus = "";
 
 //Coordenadas x, y, raio, velocidade em x e velocidade em y
 ball = {
@@ -28,8 +32,23 @@ ball = {
     dy:3
 }
 
+function preload(){
+  ballTouchPaddel = loadSound("ball_touch_paddel.wav")
+  missed = loadSound("missed.wav")
+}
+
 function setup(){
   canvas =  createCanvas(700,550);
+  canvas.parent("canvas")
+  video = createCapture(VIDEO)
+  video.size(700, 550)
+  video.hide()
+  poseNet = ml5.poseNet(video, modelLoaded)
+  poseNet.on("pose", gotPoses)
+}
+
+function modelLoaded(){
+  console.log("Modelo Carregado!");
 }
 
 
