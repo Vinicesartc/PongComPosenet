@@ -51,10 +51,28 @@ function modelLoaded(){
   console.log("Modelo Carregado!");
 }
 
+function gotPoses(results){
+  if(results.length > 0){
+    wristY = results[0].pose.rightWrist.y
+    wristX = results[0].pose.rightWrist.x
+    scoreWrist = results[0].pose.keypoints[10].score
+    console.log(scoreWrist)
+  }
+
+}
+
+function startGame(){
+  gameStatus = "start"
+  document.getElementById("status").innerHTML = "O jogo foi carregado!"
+}
+
 
 function draw(){
+  if(gameStatus == "start"){
 
+  
   background(0); 
+  image(video, 0, 0, 700, 550)
 
   fill("black");
   stroke("black");
@@ -63,6 +81,12 @@ function draw(){
   fill("black");
   stroke("black");
   rect(0,0,20,700);
+
+  if(scoreWrist > 0.2){
+    fill("red")
+    stroke("red")
+    circle(wristX, wristY, 30)
+  }
 
   //Chamar a função paddleInCanvas() 
   paddleInCanvas();
@@ -93,6 +117,8 @@ function draw(){
   //Chamar a função move() (muito importante para o jogo)
   move();
 }
+}
+
 
 
 
